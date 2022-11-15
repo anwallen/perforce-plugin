@@ -1,3 +1,4 @@
+<?jelly escape-by-default='true'?>
 <div>
 <p>Allows Hudson/Jenkins to integrate with <a href="http://perforce.com/" target="_new">Perforce</a> SCM repositories.</p>
 </div>
