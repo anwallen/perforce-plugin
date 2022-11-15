@@ -8,7 +8,6 @@
     <artifactId>plugin</artifactId>
     <version>3.57</version>
     <relativePath>../pom.xml</relativePath>
-    <relativePath>../pom.xml</relativePath-->
   </parent>
   
 
