@@ -3,6 +3,7 @@
 *.iws
 target
 work
+dist
 .classpath
 .settings
 .project
