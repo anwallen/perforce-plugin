@@ -80,6 +80,8 @@ public class MacroStringHelperTest {
         checkStringForMacros("//depot1/path1/... //placeholder/path1/...\n//depot1/path2/... //placeholder/path2/...", false);
     }
     
+    //No longer possible to set a Null value as an environment variable
+    //
     @Bug(25732)
     public @Test void nullEntriesInEnvVars() throws ParameterSubstitutionException {   
         // Check that params with null values are being ignored
@@ -87,6 +89,11 @@ public class MacroStringHelperTest {
            MacroStringHelper.substituteParameters("Test sring with ${PARAM}", new EnvVars("PARAM", null));
         } catch (ParameterSubstitutionException ex) {
             return; // OK
+        } catch (java.lang.IllegalArgumentException ex) 
+        {
+            //No longer possible to set a Null value as an environment variable
+            //EnvVars will throw this exception
+            return;
         }
         Assert.fail("Expected ParameterSubstitutionException on null parameter value");
     }

@@ -88,7 +88,7 @@ public class JobSubstitutionHelper {
         if (project instanceof MatrixProject) {
             MatrixProject matrixProject = (MatrixProject) project;
             for (Axis axis : matrixProject.getAxes()) {
-                subst.put(axis.name, axis.size() >0 ? axis.value(0) : "");
+                subst.put(axis.getName(), axis.size() >0 ? axis.value(0) : "");
             }
         }
     }
