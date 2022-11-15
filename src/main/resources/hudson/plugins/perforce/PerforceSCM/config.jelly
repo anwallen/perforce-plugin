@@ -1,4 +1,20 @@
-<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form">
+<j:jelly xmlns:j="jelly:core" xmlns:st="jelly:stapler" xmlns:d="jelly:define" xmlns:l="/lib/layout" xmlns:t="/lib/hudson" xmlns:f="/lib/form" xmlns:u="/util" xmlns:local="local">
+    <d:taglib uri="local">
+        <d:tag name="blockWrapper">
+            <j:choose>
+                <j:when test="${divBasedFormLayout}">
+                    <div>
+                        <d:invokeBody/>
+                    </div>
+                </j:when>
+                <j:otherwise>
+                    <table style="width:100%">
+                        <d:invokeBody/>
+                    </table>
+                </j:otherwise>
+            </j:choose>
+        </d:tag>
+    </d:taglib>
 
   <j:if test="${empty(instance)}">
     <j:set var="streamDepotUsed" value="true"/>
@@ -15,7 +31,7 @@
   <j:set var="p4.config.instanceID" value="${descriptor.generateP4InstanceID()}"/>
   
   <f:entry title="Depot" help="/plugin/perforce/help/depot.html">
-    <table width="100%">
+    <local:blockWrapper>
       <f:entry title="P4PORT (hostname:port)">
         <f:textbox field="p4Port" id="p4Port"/>
       </f:entry>
@@ -40,11 +56,11 @@
             <input type="hidden" name="exposeP4Passwd" value="false" />
         </f:invisibleEntry>
       </j:if>
-    </table>
+    </local:blockWrapper>
   </f:entry>
 
   <f:entry title="Project Details">
-    <table width="100%">
+    <local:blockWrapper>
       <f:entry title="Workspace (client)" help="/plugin/perforce/help/p4Client.html">
         <f:textbox field="p4Client" id="p4Client"
                 checkUrl="'${rootURL}/scm/PerforceSCM/validateP4Client?port='+escape(this.form.elements['p4Port'].value)+'&amp;tool='+escape(this.form.elements['p4Tool'].value)+'&amp;user='+escape(this.form.elements['p4User'].value)+'&amp;pass='+escape(this.form.elements['p4Passwd'].value)+'&amp;client='+escape(this.form.elements['p4Client'].value)"/>
@@ -57,7 +73,7 @@
       </f:entry>
 
       <f:entry title="Client View Type">
-        <table width="100%">
+        <local:blockWrapper>
           <f:radioBlock name="${p4.config.instanceID}.depotType" title="Stream" value="stream" checked="${instance.useStreamDepot}" help="/plugin/perforce/help/streamDepot.html">
             <f:entry title="Stream" help="/plugin/perforce/help/p4Stream.html">
               <f:textbox name="p4Stream" field="p4Stream"
@@ -75,10 +91,10 @@
               <f:textarea name="projectPath" field="projectPath"/>
             </f:entry> 
           </f:radioBlock>
-        </table>
+        </local:blockWrapper>
       </f:entry>
 
-    </table>
+    </local:blockWrapper>
   </f:entry>
 
   <f:advanced>
@@ -99,7 +115,8 @@
     </f:entry>
     
     <f:optionalBlock name="p4.cleanWorkspace" title="Clean Workspace Before Each Build" help="/plugin/perforce/help/cleanBeforeBuild.html" checked="${instance.cleanWorkspaceBeforeBuild}">
-        <f:entry><table width="100%">
+        <f:entry>
+		<local:blockWrapper>
         <f:radioBlock title="Full Wipe" name="${p4.config.instanceID}.cleanType" value="wipe" id="p4.wipeClean" checked="${instance.wipeBeforeBuild}" help="/plugin/perforce/help/wipeBeforeBuild.html"/>
         <f:radioBlock title="Quick Clean" name="${p4.config.instanceID}.cleanType" value="quick" id="p4.quickClean" checked="${instance.quickCleanBeforeBuild}" help="/plugin/perforce/help/quickCleanBeforeBuild.html"> 
           <f:entry title="Restore Changed/Deleted Files" help="/plugin/perforce/help/quickCleanRestore.html">
@@ -109,7 +126,7 @@
       <f:entry title="Clean .repository Before Build" help="/plugin/perforce/help/wipeRepoBeforeBuild.html">
         <f:checkbox name="p4.wipeRepoBeforeBuild" default="false" value="False" checked="${instance.wipeRepoBeforeBuild}"/>
       </f:entry>
-      </table></f:entry>
+      </local:blockWrapper></f:entry>
     </f:optionalBlock>
     
     <f:entry title="Options" help="/plugin/perforce/help/projectOptions.html">
@@ -196,25 +213,25 @@
     </f:entry>
     
     <f:entry title="Windows Specific Details" help="/plugin/perforce/help/windows.html">
-      <table width="100%">
+      <local:blockWrapper>
         <f:entry title="System Drive">
           <f:textbox field="p4SysDrive" />
         </f:entry>
         <f:entry title="System Root">
           <f:textbox field="p4SysRoot" />
         </f:entry>
-      </table>
+      </local:blockWrapper>
     </f:entry>
 
     <f:entry title="Perforce Charset Options" help="/plugin/perforce/help/charset.html">
-        <table width="100%">
+        <local:blockWrapper>
         <f:entry title="P4CHARSET">
             <f:textbox field="p4Charset"/>
         </f:entry>
         <f:entry title="P4COMMANDCHARSET">
             <f:textbox field="p4CommandCharset"/>
         </f:entry>
-        </table>
+        </local:blockWrapper>
     </f:entry>
 
     <f:entry title="Poll Exclude User(s)" help="/plugin/perforce/help/excludeUsers.html">
@@ -225,11 +242,11 @@
     <f:entry title="Poll Exclude File(s)" help="/plugin/perforce/help/excludeFiles.html">
         <f:textarea field="excludedFiles" id="excludedFiles"
               checkUrl="'${rootURL}/scm/PerforceSCM/validateExcludedFiles?excludedFiles='+escape(this.value)" />
-        <table width="100%">
+        <local:blockWrapper>
         <f:entry title="Case Sensitive File Matching">
             <f:checkbox field="excludedFilesCaseSensitivity" id="excludedFilesCaseSensitivity" default="true"/>
         </f:entry>
-        </table>
+        </local:blockWrapper>
     </f:entry>
 
     <f:optionalBlock name="p4.useViewMask" title="Use View Mask" help="/plugin/perforce/help/useViewMask.html" checked="${instance.useViewMask}">
