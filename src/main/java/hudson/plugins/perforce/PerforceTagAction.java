@@ -4,7 +4,8 @@ import com.tek42.perforce.Depot;
 import com.tek42.perforce.PerforceException;
 import com.tek42.perforce.model.Label;
 import static hudson.Util.fixNull;
-import hudson.model.AbstractBuild;
+//import hudson.model.AbstractBuild;
+import hudson.model.Run;
 import hudson.model.Action;
 import hudson.scm.AbstractScmTagAction;
 import hudson.security.Permission;
@@ -40,7 +41,7 @@ public class PerforceTagAction extends AbstractScmTagAction {
     private String view;
     private String owner;
 
-    public PerforceTagAction(AbstractBuild build, Depot depot, int changeNumber, String views, String owner) {
+    public PerforceTagAction(Run<?,?> build, Depot depot, int changeNumber, String views, String owner) {		 
         super(build);
         this.depot = depot;
         this.changeNumber = changeNumber;
@@ -48,7 +49,7 @@ public class PerforceTagAction extends AbstractScmTagAction {
         this.owner = owner;
     }
 
-    public PerforceTagAction(AbstractBuild build, Depot depot, String label, String views, String owner) {
+    public PerforceTagAction(Run<?,?> build, Depot depot, String label, String views, String owner) {
         super(build);
         this.depot = depot;
         this.changeNumber = -1;
@@ -59,7 +60,7 @@ public class PerforceTagAction extends AbstractScmTagAction {
     }
 
     public PerforceTagAction(PerforceTagAction tga) {
-        super(tga.build);
+        super(tga.getRun());
         this.depot = tga.depot;
         this.changeNumber = tga.changeNumber;
         this.tag = tga.tag;

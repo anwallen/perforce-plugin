@@ -154,8 +154,11 @@ public final class PerforceToolInstallation extends ToolInstallation implements 
         /**
          * Checks if the path to p4 executable exists.
          */
-        public FormValidation doCheckHome(@QueryParameter File value)
-            throws IOException, ServletException {
+        /*public FormValidation doCheckHome(@QueryParameter File value)
+            throws IOException, ServletException 
+			*/
+		public FormValidation doCheckHome(@QueryParameter File value) 			
+		{
 
             Hudson.getInstance().checkPermission(Hudson.ADMINISTER);
             String path = value.getPath();

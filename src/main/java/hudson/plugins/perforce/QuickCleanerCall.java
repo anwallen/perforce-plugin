@@ -3,6 +3,8 @@ package hudson.plugins.perforce;
 import hudson.Util;
 import hudson.model.TaskListener;
 import hudson.plugins.perforce.QuickCleaner.PerforceCall;
+import jenkins.security.MasterToSlaveCallable;
+//import jenkins.security.RoleChecker;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -13,7 +15,7 @@ import org.apache.commons.io.IOUtils;
  *
  * @author rpetti
  */
-public class QuickCleanerCall implements QuickCleaner.RemoteCall {
+public class QuickCleanerCall extends MasterToSlaveCallable<Integer, IOException> implements QuickCleaner.RemoteCall {
 
     private String[] env;
     private OutputStream out;
@@ -26,7 +28,12 @@ public class QuickCleanerCall implements QuickCleaner.RemoteCall {
     QuickCleanerCall() {
         
     }
-
+/*
+    @Override
+    public void checkRoles(RoleChecker checker) {
+        checker.check(this,Roles.SLAVE);
+    }
+*/
     @Override
     public void setEnv(String[] env) {
         this.env = env;

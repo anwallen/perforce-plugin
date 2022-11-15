@@ -12,6 +12,7 @@ import hudson.Proc;
 import hudson.model.Hudson;
 import hudson.model.TaskListener;
 import hudson.remoting.Callable;
+import jenkins.security.MasterToSlaveCallable;
 import hudson.remoting.FastPipedInputStream;
 import hudson.remoting.FastPipedOutputStream;
 import hudson.remoting.RemoteOutputStream;
@@ -138,7 +139,12 @@ public class QuickCleaner {
         return result.toArray(new String[result.size()]);
     }
 
-    public interface RemoteCall extends Callable<Integer, IOException> {
+
+    public interface RemoteCall extends Callable<Integer, IOException> 
+/*
+	public interface RemoteCall extends MasterToSlaveCallable<Integer, IOException> 
+		*/	
+	{
 
         Integer call() throws IOException;
 

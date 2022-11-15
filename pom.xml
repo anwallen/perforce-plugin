@@ -1,19 +1,37 @@
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.jvnet.hudson.plugins</groupId>
+    <!--groupId>org.jvnet.hudson.plugins</groupId-->
+    <groupId>org.jenkins-ci.plugins</groupId>
     <artifactId>plugin</artifactId>
-    <version>1.346</version>
+    <version>3.57</version>
     <relativePath>../pom.xml</relativePath>
+    <relativePath>../pom.xml</relativePath-->
   </parent>
+  
 
+  
   <artifactId>perforce</artifactId>
-  <name>Perforce Plugin</name>
+
   <packaging>hpi</packaging>
-  <version>1.3.37-SNAPSHOT</version>
+  <version>1.3.37-AVI</version>
+  <name>Perforce Plugin</name>
+  <description>Legacy Perforce Client plugin for the Jenkins SCM provider.</description>
   <url>http://wiki.jenkins-ci.org/display/JENKINS/Perforce+Plugin</url>
 
+  <properties>
+    <jenkins.version>2.346.3</jenkins.version>
+    <java.level>8</java.level>
+  </properties> 
+  
+    <scm>
+    <connection>scm:git:git://github.com/jenkinsci/perforce-plugin.git</connection>
+    <developerConnection>scm:git:git@github.com:jenkinsci/perforce-plugin.git</developerConnection>
+    <url>http://github.com/jenkinsci/perforce-plugin</url>
+  </scm>
+  
   <developers>
     <developer>
       <id>javadude</id>
@@ -48,10 +66,11 @@
     <build>
         <plugins>
             <!--Validate Java version (1.7 isn't supported)-->
-            <plugin>
+            <!--enforcer 1.2 and 1.4.1 do not work-->
+            <!--plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
-                <version>1.2</version>
+                <version>1.4.1</version> 
                 <executions>
                     <execution>
                         <id>enforce-versions</id>
@@ -67,27 +86,25 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
+            </plugin-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.0.2</version>
+                    <version>3.10.1</version>
                 <configuration>
                     <source>1.5</source>
                     <target>1.5</target>
                 </configuration>
             </plugin>
-            <plugin>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.0-beta-9</version>
-                <configuration>
-                     <goals>deploy</goals>
-                </configuration>
-            </plugin>
+                        <!--plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-hpi-plugin</artifactId>
+                                <version>3.10.1</version>
+            </plugin-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
-                <version>2.0</version>
+                    <version>3.0.4</version>
                 <dependencies>
                     <dependency>
                         <groupId>org.apache.maven.scm</groupId>
@@ -95,13 +112,6 @@
                         <version>1.3</version>
                     </dependency>
                 </dependencies>
-            </plugin>
-            <plugin>
-                <artifactId>maven-release-plugin</artifactId>
-                <version>2.0-beta-9</version>
-                <configuration>
-                     <goals>deploy</goals>
-                </configuration>
             </plugin>
         </plugins>
         <extensions>
@@ -112,58 +122,115 @@
             </extension>
         </extensions>
     </build>
-    <dependencies>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>1.4.3</version>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-simple</artifactId>
-      <version>1.4.3</version>
-    </dependency>
-    <dependency>
-      <groupId>commons-codec</groupId>
-      <artifactId>commons-codec</artifactId>
-      <version>1.4</version>
-    </dependency>
-        <dependency>
-            <groupId>com.google.code.findbugs</groupId>
-            <artifactId>jsr305</artifactId>
-            <version>2.0.1</version>
-            <type>jar</type>
-        </dependency>
-    </dependencies>
+   
 
   <distributionManagement>
     <repository>
       <id>java.net-m2-repository</id>
-      <url>http://maven.jenkins-ci.org/content/repositories/releases/</url>
+      <url>https://maven.jenkins-ci.org/content/repositories/releases/</url>
     </repository>
   </distributionManagement>
-
-  <scm>
-    <connection>scm:git:git://github.com/jenkinsci/perforce-plugin.git</connection>
-    <developerConnection>scm:git:git@github.com:jenkinsci/perforce-plugin.git</developerConnection>
-    <url>http://github.com/jenkinsci/perforce-plugin</url>
-  </scm>
 
 
     <repositories>
         <repository>
             <id>repo.jenkins-ci.org</id>
-            <url>http://repo.jenkins-ci.org/public/</url>
+            <url>https://repo.jenkins-ci.org/public/</url>
         </repository>
+    <repository>
+      <id>java.net-m2-repository</id>
+      <url>https://maven.jenkins-ci.org/content/repositories/releases/</url>
+    </repository>
     </repositories>
 
     <pluginRepositories>
         <pluginRepository>
-            <id>repo.jenkins-ci.org</id>
-            <url>http://repo.jenkins-ci.org/public/</url>
+        <id>repo.jenkins-ci.org</id>
+        <url>https://repo.jenkins-ci.org/public/</url>
         </pluginRepository>
     </pluginRepositories>
+
+ <dependencies>
+     <dependency>
+         <groupId>org.apache.ant</groupId>
+         <artifactId>ant</artifactId>
+             <version>1.10.12</version>
+                 <exclusions>
+                     <exclusion>
+                         <artifactId>tools</artifactId>
+                         <groupId>com.sun</groupId>
+                     </exclusion>
+                </exclusions>
+    </dependency>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+          <version>1.7.36</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+          <version>1.7.36</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jcl-over-slf4j</artifactId>
+      <version>1.7.36</version>
+    </dependency>
+        <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>log4j-over-slf4j</artifactId>
+      <version>1.7.36</version>
+    </dependency>
+        <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-jdk14</artifactId>
+      <version>1.7.36</version>
+    </dependency>
+    <dependency>
+      <groupId>com.github.spotbugs</groupId>
+      <artifactId>spotbugs-annotations</artifactId>
+      <version>4.6.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-codec</groupId>
+      <artifactId>commons-codec</artifactId>
+      <version>1.15</version>
+    </dependency>
+
+    <!-- Jenkins dependencies -->
+    <dependency>
+      <groupId>org.jenkins-ci.plugins</groupId>
+      <artifactId>scm-api</artifactId>
+      <version>2.4.1</version>
+    </dependency>
+  <dependency>
+      <groupId>org.kohsuke</groupId>
+      <artifactId>access-modifier-annotation</artifactId>
+      <version>1.27</version>
+    </dependency>
+  <dependency>
+      <groupId>org.jenkins-ci</groupId>
+      <artifactId>annotation-indexer</artifactId>
+      <version>1.16</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jenkins-ci.plugins</groupId>
+      <artifactId>matrix-project</artifactId>
+      <version>1.14.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jenkins-ci.plugins</groupId>
+      <artifactId>mailer</artifactId>
+      <version>1.23</version>
+      <optional>true</optional>
+    </dependency>
+    </dependencies>
+
 </project>  
-  
+
 
 

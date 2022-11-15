@@ -69,6 +69,7 @@ import javax.annotation.Nonnull;
  * @author Mike Wille
  * @author Brian Westrich
  * @author Victor Szoltysek
+ * public class PerforceSCM <T extends SCM> {
  */
 public class PerforceSCM extends SCM {
 
@@ -534,8 +535,8 @@ public class PerforceSCM extends SCM {
      * @param build
      * @param env
      */
-    @Override
-    public void buildEnvVars(@Nonnull AbstractBuild build, @Nonnull Map<String, String> env) {
+    @Override	
+    public void buildEnvVars(@Nonnull AbstractBuild<?, ?> build, @Nonnull Map<String, String> env) {
         super.buildEnvVars(build, env);
 
         // Check nested calls

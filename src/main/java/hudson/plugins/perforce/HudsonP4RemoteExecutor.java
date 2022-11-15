@@ -18,6 +18,7 @@ import hudson.Proc.RemoteProc;
 import hudson.model.Hudson;
 import hudson.model.TaskListener;
 import hudson.remoting.Callable;
+import jenkins.security.MasterToSlaveCallable;
 import hudson.remoting.FastPipedInputStream;
 import hudson.remoting.FastPipedOutputStream;
 import hudson.remoting.Future;
@@ -134,7 +135,9 @@ public class HudsonP4RemoteExecutor implements HudsonP4Executor {
         return reader;
     }
 
-    private static class RemoteCall implements Callable<Integer,IOException> {
+    //private static class RemoteCall implements Callable<Integer,IOException> 
+	private static class RemoteCall extends MasterToSlaveCallable<Integer, IOException>
+	{
         private final List<String> cmd;
         private final String[] env;
         private final InputStream in;

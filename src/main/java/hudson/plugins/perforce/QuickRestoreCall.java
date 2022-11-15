@@ -7,6 +7,7 @@ package hudson.plugins.perforce;
 import hudson.model.TaskListener;
 import hudson.plugins.perforce.QuickCleaner.PerforceCall;
 import hudson.plugins.perforce.QuickCleaner.RemoteCall;
+import jenkins.security.MasterToSlaveCallable;
 import java.io.*;
 import java.util.ArrayList;
 import org.apache.commons.io.IOUtils;
@@ -16,7 +17,7 @@ import org.apache.commons.io.input.ClosedInputStream;
  *
  * @author rpetti
  */
-class QuickRestoreCall implements RemoteCall {
+class QuickRestoreCall extends MasterToSlaveCallable<Integer, IOException>implements RemoteCall {
     private String[] env;
     private OutputStream out;
     private String workDir;
